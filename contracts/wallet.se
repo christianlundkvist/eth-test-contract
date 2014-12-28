@@ -1,0 +1,30 @@
+# Simple on-chain wallet that allows sending to name defined in an
+# external name registry contract. Demonstrates contracts calling
+# other contracts with return values.
+
+data owner
+data namereg
+
+extern namereg: [register, transfer_ownership, set_value, get_value, get_owner]
+
+def init():
+    self.owner = msg.sender
+
+def set_namereg(namereg_addr):
+    if msg.sender == self.owner:
+        self.namereg = namereg_addr
+
+def send_to_addr(addr, value):
+    if msg.sender == self.owner:
+        if value <= self.balance:
+            send(addr, value)
+
+def send_to_name(name, value):
+    if msg.sender == self.owner:
+        if value <= self.balance:
+            addr = self.namereg.get_value(name)
+            send(addr, value)
+
+def transfer_ownership(new_owner):
+    if msg.sender == self.owner:
+        self.owner = new_owner
