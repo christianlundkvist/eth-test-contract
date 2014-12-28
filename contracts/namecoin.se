@@ -1,0 +1,22 @@
+# Basic name registry with key ownership
+
+data registry[](owner, value)
+
+def register(key):
+    # Key not yet claimed
+    if not self.registry[key].owner:
+        self.registry[key].owner = msg.sender
+
+def transfer_ownership(key, new_owner):
+    if self.registry[key].owner == msg.sender:
+        self.registry[key].owner = new_owner
+
+def set_value(key, new_value):
+    if self.registry[key].owner == msg.sender:
+        self.registry[key].value = new_value
+
+def get_value(key):
+    return(self.registry[key].value)
+
+def get_owner(key):
+    return(self.registry[key].owner)
