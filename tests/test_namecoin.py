@@ -11,23 +11,32 @@ class TestNameCoin(testcontract.TestContract):
 
     def test_register_key(self):
 
-        self.state.send(self.k0, self.ctr, 0, funid=REGISTER_KEY, abi=['0xdeadbeef'])
-        retval = self.state.send(self.k0, self.ctr, 0, funid=GET_OWNER, abi=['0xdeadbeef'])
+        s = self.reset_state()
+        ctr = self.reset_contract(s, 0, self.k0)
+
+        s.send(self.k0, ctr, 0, funid=REGISTER_KEY, abi=['0xdeadbeef'])
+        retval = s.send(self.k0, ctr, 0, funid=GET_OWNER, abi=['0xdeadbeef'])
         retaddr = utils.int_to_addr(retval[0])
         self.assertEqual(retaddr, self.a0)
 
     def test_set_value(self):
 
-        self.state.send(self.k0, self.ctr, 0, funid=REGISTER_KEY, abi=['0xdeadbeef'])
-        self.state.send(self.k0, self.ctr, 0, funid=SET_VALUE, abi=['0xdeadbeef', '0xabbababe'])
-        retval = self.state.send(self.k0, self.ctr, 0, funid=GET_VALUE, abi=['0xdeadbeef'])
+        s = self.reset_state()
+        ctr = self.reset_contract(s, 0, self.k0)
+
+        s.send(self.k0, ctr, 0, funid=REGISTER_KEY, abi=['0xdeadbeef'])
+        s.send(self.k0, ctr, 0, funid=SET_VALUE, abi=['0xdeadbeef', '0xabbababe'])
+        retval = s.send(self.k0, ctr, 0, funid=GET_VALUE, abi=['0xdeadbeef'])
         self.assertEqual(retval[0], int('abbababe',16))
 
     def test_transfer_ownership(self):
 
-        self.state.send(self.k0, self.ctr, 0, funid=REGISTER_KEY, abi=['0xdeadbeef'])
-        self.state.send(self.k0, self.ctr, 0, funid=TRANSFER_OWNERSHIP, abi=['0xdeadbeef', '0x' + self.a1])
-        retval = self.state.send(self.k0, self.ctr, 0, funid=GET_OWNER, abi=['0xdeadbeef'])
+        s = self.reset_state()
+        ctr = self.reset_contract(s, 0, self.k0)
+
+        s.send(self.k0, ctr, 0, funid=REGISTER_KEY, abi=['0xdeadbeef'])
+        s.send(self.k0, ctr, 0, funid=TRANSFER_OWNERSHIP, abi=['0xdeadbeef', '0x' + self.a1])
+        retval = s.send(self.k0, ctr, 0, funid=GET_OWNER, abi=['0xdeadbeef'])
         retaddr = utils.int_to_addr(retval[0])
         self.assertEqual(retaddr, self.a1)
 

@@ -7,6 +7,8 @@ import itertools
 from pyethereum import tester
 from pyethereum import utils
 
+import serpent
+
 class TestContract(unittest.TestCase):
 
     def __init__(self, filenames, testcase):
@@ -19,19 +21,26 @@ class TestContract(unittest.TestCase):
             raise RuntimeError('Input filenames must be a list')
 
     def setUp(self):
-        self.state = tester.state()
+
         self.keys = tester.keys
         self.accounts = tester.accounts
 
         self.k0, self.k1, self.k2 = self.keys[:3]
         self.a0, self.a1, self.a2 = self.accounts[:3]
 
-        num_files = len(self.files)
-        self.contracts = list( itertools.starmap(self.state.contract, zip(self.files,self.keys[:num_files])) )
+    def reset_state(self):
+        return tester.state()
 
-        # Convenience when only one contract present
-        if num_files == 1:
-            self.ctr = self.contracts[0]
+    def reset_all_contracts(self, state):
+
+        num_files = len(self.files)        
+        contracts = list( itertools.starmap(state.contract, zip(self.files,self.keys[:num_files])) )
+        return contracts
+
+    def reset_contract(self, state, contract_idx, key):
+
+        return state.contract(self.files[contract_idx], key)
+
 
 def make_test_suite(TestClass, filenames, test_funcs=None):
 
