@@ -8,6 +8,7 @@ from pyethereum import tester
 from pyethereum import utils
 
 import serpent
+import soliditycompile as solc
 
 class TestContract(unittest.TestCase):
 
@@ -20,6 +21,20 @@ class TestContract(unittest.TestCase):
         else:
             raise RuntimeError('Input filenames must be a list')
 
+        self.contract_code = []
+        try:
+            self.contract_code = map(serpent.compile, self.files)
+        except:
+            pass
+
+        try:
+            self.contract_code = map(solc.compile, self.files)
+        except:
+            pass
+
+        if not self.contract_code:
+            raise RuntimeError('Both Serpent and Solidity compilation failed.')
+        
     def setUp(self):
 
         self.keys = tester.keys
@@ -33,13 +48,13 @@ class TestContract(unittest.TestCase):
 
     def reset_all_contracts(self, state):
 
-        num_files = len(self.files)        
-        contracts = list( itertools.starmap(state.contract, zip(self.files,self.keys[:num_files])) )
+        num_ctr = len(self.contract_code)
+        contracts = list( itertools.starmap(state.evm, zip(self.contract_code ,self.keys[:num_ctr])) )
         return contracts
 
     def reset_contract(self, state, contract_idx, key):
 
-        return state.contract(self.files[contract_idx], key)
+        return state.evm(self.contract_code[contract_idx], key)
 
 
 def make_test_suite(TestClass, filenames, test_funcs=None):

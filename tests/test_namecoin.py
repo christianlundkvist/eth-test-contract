@@ -1,3 +1,4 @@
+import unittest
 import testcontract
 from pyethereum import utils
 
@@ -41,7 +42,9 @@ class TestNameCoin(testcontract.TestContract):
         self.assertEqual(retaddr, self.a1)
 
 def suite():
-    return testcontract.make_test_suite(TestNameCoin, 'contracts/namecoin.se')
+    suite_serpent = testcontract.make_test_suite(TestNameCoin, 'contracts/namecoin.se')
+    suite_solidity = testcontract.make_test_suite(TestNameCoin, 'contracts/namecoin.sol')
+    return unittest.TestSuite([suite_serpent, suite_solidity])
 
 if __name__ == '__main__':
-    testcontract.run_tests(TestNameCoin, 'contracts/namecoin.se')
+    unittest.TextTestRunner(verbosity=2).run(suite())
