@@ -20,21 +20,15 @@ class TestContract(unittest.TestCase):
             self.files = filenames
         else:
             raise RuntimeError('Input filenames must be a list')
+            
+        def comp(file):
+            if file[-3:] == '.se':
+                return serpent.compile(file)
+            elif file[-4:] == '.sol':
+                return solc.compile(file)
 
-        self.contract_code = []
-        try:
-            self.contract_code = map(serpent.compile, self.files)
-        except:
-            pass
+        self.contract_code = map(comp, self.files)
 
-        try:
-            self.contract_code = map(solc.compile, self.files)
-        except:
-            pass
-
-        if not self.contract_code:
-            raise RuntimeError('Both Serpent and Solidity compilation failed.')
-        
     def setUp(self):
 
         self.keys = tester.keys
