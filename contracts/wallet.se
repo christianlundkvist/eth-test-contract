@@ -3,16 +3,16 @@
 # other contracts with return values.
 
 data owner
-data namereg
+data namereg_addr
 
-extern namereg: [register, transfer_ownership, set_value, get_value, get_owner]
+extern namereg: [get_owner:i:i, get_value:i:i, register:i:_, set_value:ii:_, transfer_ownership:ii:_]
 
 def init():
     self.owner = msg.sender
 
 def set_namereg(namereg_addr):
     if msg.sender == self.owner:
-        self.namereg = namereg_addr
+        self.namereg_addr = namereg_addr
 
 def send_to_addr(addr, value):
     if msg.sender == self.owner:
@@ -22,7 +22,7 @@ def send_to_addr(addr, value):
 def send_to_name(name, value):
     if msg.sender == self.owner:
         if value <= self.balance:
-            addr = self.namereg.get_value(name)
+            addr = self.namereg_addr.get_value(name)
             send(addr, value)
 
 def transfer_ownership(new_owner):
