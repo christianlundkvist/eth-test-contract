@@ -1,0 +1,35 @@
+
+data stored_array[]
+data stored_array_len
+
+def set_stored_array(input:arr):
+    n = len(input)
+    self.stored_array_len = n
+
+    i=0
+    while i<n:
+        self.stored_array[i] = input[i]
+        i += 1
+
+def get_stored_array():
+    n = self.stored_array_len
+    ret_arr = array(n)
+    i=0
+    while i<n:
+        ret_arr[i] = self.stored_array[i]
+        i += 1
+    return(ret_arr:arr)
+
+def get_hardcoded_array_111():
+    return([1,1,1]:arr)
+
+def get_stored_array_from_call():
+    n = self.stored_array_len
+    ret_arr = self.get_stored_array(outsz=n)
+    return(ret_arr:arr)
+
+def get_stored_array_from_call_with_outsz_minus_one():
+    n = self.stored_array_len-1
+    ret_arr = self.get_stored_array(outsz=n)
+    return(ret_arr:arr)
+
