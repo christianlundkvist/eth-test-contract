@@ -1,5 +1,5 @@
 import unittest, testcontract
-from pyethereum import utils
+from ethereum import utils
 
 class TestNameCoin(testcontract.TestContract):
 
@@ -14,8 +14,8 @@ class TestNameCoin(testcontract.TestContract):
         ctr.register(key, sender=self.k0, value=0)
         
         retval = ctr.get_owner(key)
-        
         retaddr = utils.int_to_addr(retval)
+
         self.assertEqual(retaddr, self.a0)
 
     def test_set_value(self):
@@ -41,7 +41,7 @@ class TestNameCoin(testcontract.TestContract):
         value = 6789
 
         ctr.register(key)
-        ctr.transfer_ownership(key, int(self.a1, 16))
+        ctr.transfer_ownership(key, self.a1)
         retval = ctr.get_owner(key)
         retaddr = utils.int_to_addr(retval)
         self.assertEqual(retaddr, self.a1)

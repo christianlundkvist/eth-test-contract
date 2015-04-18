@@ -1,5 +1,4 @@
 import unittest, testcontract
-from pyethereum import utils
 
 class TestArrays(testcontract.TestContract):
 

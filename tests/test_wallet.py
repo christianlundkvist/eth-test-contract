@@ -42,13 +42,6 @@ class TestWallet(testcontract.TestContract):
         self.assertEqual(getbal(w1), balbefore1)
 
 
-    # def test_get_owner(self):
-
-    #     s = self.reset_state()
-    #     w0, w1, nc = self.reset_all_contracts(s)
-
-    #     w0.get_owner()
-
     def test_send_to_name(self):
 
         s = self.reset_state()

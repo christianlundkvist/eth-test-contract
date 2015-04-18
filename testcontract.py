@@ -4,8 +4,8 @@ import inspect
 import operator
 import itertools
 
-from pyethereum import tester
-from pyethereum import utils
+from ethereum import tester
+from ethereum import utils
 
 import serpent
 
