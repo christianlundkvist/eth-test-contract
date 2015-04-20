@@ -39,7 +39,7 @@ class TestContract(unittest.TestCase):
 
     def reset_contract(self, state, contract_idx, key):
 
-        return state.abi_contract(self.files[contract_idx], key)
+        return state.abi_contract(self.files[contract_idx], key, gas=500000000)
 
 
 def make_test_suite(TestClass, filenames, test_funcs=None):
